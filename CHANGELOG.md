@@ -1,5 +1,11 @@
 # Histórico de versões
 
+## v15 – 23/11/2026
+- **Botão "📍 Usar minha localização atual"** (formato Círculo): pega a posição do aparelho (GPS do celular), coloca no campo da coordenada e já faz a verificação. Assim dá para saber na hora se o local onde você está fica em FRZ ou em área proibida/restrita.
+- No formato Polígono, o botão **"📍 Marcar ponto na minha localização"** acrescenta um ponto onde você está (útil para andar pelos cantos da área).
+- A página mostra a hora e a **precisão** da localização (± metros), avisa quando a precisão está baixa (mais de 100 m) e desenha um círculo azul com essa precisão no mapa.
+- O navegador pede permissão na primeira vez. Se a permissão for negada, ou se o GPS estiver desligado, aparece uma mensagem explicando o que fazer.
+
 ## v14 – 19/11/2026
 - **Filtro das áreas (EAC) agora só muda o mapa.** Por decisão do Sgt Marcelo, o resultado considera sempre todas as áreas proibidas, restritas e perigosas, mesmo as desligadas no filtro. Antes, uma área desligada saía do resultado e aparecia só como aviso.
 - Na tabela, a área desligada aparece com a nota "(oculta no mapa)". O aviso do filtro foi reescrito para dizer que ela foi considerada.

@@ -70,6 +70,9 @@
   textarea{width:100%;padding:9px 10px;border:1px solid #bfb9ad;border-radius:6px;font:13px "IBM Plex Mono",monospace;background:#fff;color:var(--ink);resize:vertical}
   .polibtns{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
   .polibtns .mini{flex:1}
+  .gps{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin-top:8px;padding:9px;border:1px solid var(--accent);border-radius:6px;background:#eef3f8;color:var(--accent);font-weight:600}
+  .gps:disabled{opacity:.6;cursor:wait}
+  .gpsinfo{font-size:12px;color:var(--muted);margin-top:4px;min-height:1em}
   .poliinfo{font-size:13px;margin-top:6px;padding:6px 10px;border-left:3px solid var(--accent);background:#eef3f8;border-radius:0 6px 6px 0}
   .vtx{background:#14304f;color:#fff;border:0;font:600 11px "IBM Plex Mono",monospace;padding:0 5px;box-shadow:none}
   .vtx::before{display:none}
@@ -111,7 +114,7 @@
 <header>
   <h1>Verificador FRZ e Áreas Restritas – RS</h1>
   <span class="sub">Consulta rápida: o voo do drone entra em Zona de Restrição de Voo? Precisa de Termo de Coordenação?</span>
-  <span class="ver">v14 · 19/11/2026</span>
+  <span class="ver">v15 · 23/11/2026</span>
 </header>
 
 <main>
@@ -126,7 +129,9 @@
       <div id="blocoCirc">
       <label for="coord">Coordenada do voo</label>
       <input id="coord" placeholder="-29.7400, -53.6500  ou  294424S 0533900W">
+      <button type="button" class="gps" id="gpsCirc">📍 Usar minha localização atual</button>
       <div class="hint">Aceita decimal (-29.74, -53.65) ou graus/minutos/segundos sem símbolos: <b>294424S 0533900W</b> (também aceita com ° ' "). Também pode clicar no mapa.</div>
+      <div class="gpsinfo" id="gpsInfoCirc"></div>
       <div class="err" id="errCoord"></div>
       </div>
 
@@ -138,7 +143,9 @@
           <button type="button" class="mini" id="vDesfazer">Desfazer último ponto</button>
           <button type="button" class="mini" id="vApagar">Apagar pontos</button>
         </div>
+        <button type="button" class="gps" id="gpsPoli">📍 Marcar ponto na minha localização</button>
         <div class="poliinfo" id="poliInfo">Nenhum ponto marcado.</div>
+        <div class="gpsinfo" id="gpsInfoPoli"></div>
         <div class="err" id="errPoli"></div>
       </div>
 
@@ -255,8 +262,8 @@
   </section>
 </main>
 
-<script src="eac-rs.js?v=14"></script>
-<script src="frz.js?v=14"></script>
+<script src="eac-rs.js?v=15"></script>
+<script src="frz.js?v=15"></script>
 <script>
 const $ = id => document.getElementById(id);
 const COR = ['#b3261e','#e5483f','#f08c2a','#f2d03b','#8ccbe8'];
@@ -804,7 +811,7 @@ $('map').addEventListener('click', ev => {
 $('eacFonte').textContent = 'fonte: ' + EAC_FONTE;
 montarFiltro();
 $('limpar').addEventListener('click', () => {
-  $('coord').value = ''; $('vertices').value = ''; $('errPoli').textContent = ''; estado.poli = null;
+  $('coord').value = ''; $('vertices').value = ''; $('gpsInfoCirc').textContent = ''; $('gpsInfoPoli').textContent = ''; if(marcaGps && mapa){ mapa.removeLayer(marcaGps); marcaGps = null; } $('errPoli').textContent = ''; estado.poli = null;
   $('alt').value = unidadeAlt() === 'm' ? 60 : 200; dicaAlt();
   $('raio').value = 0;
   $('inicio').value = '';
@@ -824,6 +831,39 @@ $('f').addEventListener('submit', ev => {
     else { const p = L.latLng(estado.lat, estado.lon); if(!mapa.getBounds().contains(p)) mapa.setView(p, Math.max(mapa.getZoom(), 13)); }
   }
 });
+// ===== Minha localização (GPS do celular / localização do navegador) =====
+// Usa a localização do aparelho (o navegador pede permissão na primeira vez). Só funciona em https (o site do GitHub é https).
+let marcaGps = null;
+function usarLocalizacao(){
+  const poli = formato === 'poli';
+  const info = $(poli ? 'gpsInfoPoli' : 'gpsInfoCirc'), btns = [$('gpsCirc'), $('gpsPoli')];
+  $('errCoord').textContent = ''; $('errPoli').textContent = '';
+  if(!('geolocation' in navigator)){ info.textContent = 'Este navegador não informa a localização.'; return; }
+  btns.forEach(b => b.disabled = true); info.textContent = 'Buscando sua localização… (no celular, deixe o GPS ligado)';
+  navigator.geolocation.getCurrentPosition(pos => {
+    btns.forEach(b => b.disabled = false);
+    const lat = pos.coords.latitude, lon = pos.coords.longitude, prec = pos.coords.accuracy;
+    const hora = new Date(pos.timestamp || Date.now()).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    info.innerHTML = `Localização obtida às ${hora} · precisão ± ${fmtN(prec)} m${prec > 100 ? ' – <b>precisão baixa</b>: ligue o GPS, vá para céu aberto e toque de novo' : ''}.`;
+    if(!dentroRS(lat, lon)){ (poli ? $('errPoli') : $('errCoord')).textContent = 'Sua localização está fora do Rio Grande do Sul – este verificador só cobre o RS.'; return; }
+    if(poli){ adicionarVertice(lat, lon); }
+    else { $('coord').value = lat.toFixed(6) + ', ' + lon.toFixed(6); verificar(); }
+    if(mapa){
+      if(marcaGps) mapa.removeLayer(marcaGps);
+      marcaGps = L.circle([lat, lon], { radius: prec, color: '#1a73e8', weight: 1, fillColor: '#1a73e8', fillOpacity: .12, interactive: false }).addTo(mapa);
+      mapa.setView([lat, lon], Math.max(mapa.getZoom(), 14));
+    }
+  }, err => {
+    btns.forEach(b => b.disabled = false);
+    info.textContent = '';
+    const msg = err.code === 1 ? 'Permissão negada: libere a localização para este site nas configurações do navegador e tente de novo.'
+              : err.code === 3 ? 'Demorou demais para achar a localização. Ligue o GPS, vá para céu aberto e tente de novo.'
+              : 'Não foi possível obter a localização. Confira se o GPS/localização do aparelho está ligado.';
+    (poli ? $('errPoli') : $('errCoord')).textContent = msg;
+  }, { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 });
+}
+$('gpsCirc').addEventListener('click', usarLocalizacao);
+$('gpsPoli').addEventListener('click', usarLocalizacao);
 $('fmtCirc').addEventListener('click', () => escolherFormato('circ'));
 $('fmtPoli').addEventListener('click', () => escolherFormato('poli'));
 $('vertices').addEventListener('input', () => { infoPoligono(); estado.lat = null; desenhar(); });
