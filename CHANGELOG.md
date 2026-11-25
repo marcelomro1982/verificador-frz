@@ -1,5 +1,8 @@
 # Histórico de versões
 
+## v17 – 25/11/2026
+- A **altura** abre **zerada** (antes vinha 200 ft), igual aos outros campos. O botão "Limpar dados" também volta a altura para 0.
+
 ## v16 – 25/11/2026
 - **Mapa em tela cheia:** botão ⛶ no canto do mapa (abaixo do + e –). Para sair, toque no ✕ (ou use a tecla Esc / o botão voltar). No iPhone, onde o navegador não tem tela cheia de verdade, o mapa ocupa a janela inteira.
 
