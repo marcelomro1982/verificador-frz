@@ -1,5 +1,8 @@
 # Histórico de versões
 
+## v16 – 25/11/2026
+- **Mapa em tela cheia:** botão ⛶ no canto do mapa (abaixo do + e –). Para sair, toque no ✕ (ou use a tecla Esc / o botão voltar). No iPhone, onde o navegador não tem tela cheia de verdade, o mapa ocupa a janela inteira.
+
 ## v15 – 23/11/2026
 - **Botão "📍 Usar minha localização atual"** (formato Círculo): pega a posição do aparelho (GPS do celular), coloca no campo da coordenada e já faz a verificação. Assim dá para saber na hora se o local onde você está fica em FRZ ou em área proibida/restrita.
 - No formato Polígono, o botão **"📍 Marcar ponto na minha localização"** acrescenta um ponto onde você está (útil para andar pelos cantos da área).

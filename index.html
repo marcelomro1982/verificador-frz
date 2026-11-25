@@ -82,6 +82,12 @@
   .maptools input[type=range]{width:110px;padding:0}
   #lmap{height:520px;border-radius:6px;border:1px solid var(--line);background:#2a2f36;cursor:crosshair}
   @media (max-width:600px){#lmap{height:400px}}
+  /* tela cheia do mapa (v16): funciona também no iPhone, que não tem tela cheia "de verdade" */
+  .mapwrap.cheia{position:fixed;inset:0;z-index:9999;background:#2a2f36}
+  .mapwrap.cheia #lmap{height:100%;border-radius:0;border:0}
+  body.mapa-cheio{overflow:hidden}
+  .btn-cheia{display:block;width:34px;height:34px;line-height:34px;text-align:center;font-size:20px;background:#fff;color:#1d2430;cursor:pointer;text-decoration:none;user-select:none}
+  .btn-cheia:hover{background:#f4f4f4}
   .leaflet-container{font-family:"IBM Plex Sans",system-ui,sans-serif}
   .adlbl{background:#14304f;color:#fff;border:0;font-weight:600;font-size:12px;padding:1px 6px;box-shadow:none}
   .adlbl::before{display:none}
@@ -114,7 +120,7 @@
 <header>
   <h1>Verificador FRZ e Áreas Restritas – RS</h1>
   <span class="sub">Consulta rápida: o voo do drone entra em Zona de Restrição de Voo? Precisa de Termo de Coordenação?</span>
-  <span class="ver">v15 · 23/11/2026</span>
+  <span class="ver">v16 · 25/11/2026</span>
 </header>
 
 <main>
@@ -251,7 +257,7 @@
         <span><i style="background:rgba(106,27,154,.2);border:2px solid #6a1b9a"></i>Área restrita (R)</span>
         <span><i style="background:rgba(230,160,0,.2);border:2px dashed #b07800"></i>Área perigosa (D)</span>
       </div>
-      <div class="hint" style="margin-top:6px" id="mapHint">Os anéis mudam conforme o tipo de operação escolhido. Use a barra "Cor das FRZ" para ver melhor a imagem por baixo e o botão de camadas (canto do mapa) para trocar entre satélite e mapa de ruas. O último anel (azul) aparece até 9 km do aeródromo e 4,5 km do heliponto só como referência: nele a FRZ só começa em 400 ft. Passe o mouse no "H" ou numa área (P/R/D) para ver nome e limites. Imagem de satélite: Esri (precisa de internet).</div>
+      <div class="hint" style="margin-top:6px" id="mapHint">Os anéis mudam conforme o tipo de operação escolhido. Use a barra "Cor das FRZ" para ver melhor a imagem por baixo e o botão de camadas (canto do mapa) para trocar entre satélite e mapa de ruas. O último anel (azul) aparece até 9 km do aeródromo e 4,5 km do heliponto só como referência: nele a FRZ só começa em 400 ft. Botão <b>⛶</b> (abaixo do + e –) abre o mapa em <b>tela cheia</b>; para sair, toque no <b>✕</b>. Passe o mouse no "H" ou numa área (P/R/D) para ver nome e limites. Imagem de satélite: Esri (precisa de internet).</div>
     </div>
 
     <div class="foot">
@@ -262,8 +268,8 @@
   </section>
 </main>
 
-<script src="eac-rs.js?v=15"></script>
-<script src="frz.js?v=15"></script>
+<script src="eac-rs.js?v=16"></script>
+<script src="frz.js?v=16"></script>
 <script>
 const $ = id => document.getElementById(id);
 const COR = ['#b3261e','#e5483f','#f08c2a','#f2d03b','#8ccbe8'];
@@ -679,6 +685,15 @@ function iniciarMapa(){
   camadaAreas = areas;
   L.control.layers({ 'Satélite': sat, 'Mapa de ruas': ruas }, { 'Nomes de cidades': nomes, 'Áreas P/R/D (AIP)': areas }, { position: 'topright' }).addTo(mapa);
   L.control.scale({ imperial: false, position: 'bottomleft' }).addTo(mapa);
+  // botão de tela cheia (canto superior esquerdo, embaixo do + e –)
+  const CtrlCheia = L.Control.extend({ options: { position: 'topleft' }, onAdd(){
+    const box = L.DomUtil.create('div', 'leaflet-bar');
+    const b = L.DomUtil.create('a', 'btn-cheia', box);
+    b.href = '#'; b.id = 'btnCheia'; b.title = 'Abrir o mapa em tela cheia'; b.setAttribute('role', 'button'); b.textContent = '⛶';
+    L.DomEvent.disableClickPropagation(box);
+    L.DomEvent.on(b, 'click', e => { L.DomEvent.preventDefault(e); telaCheia(); });
+    return box; } });
+  new CtrlCheia().addTo(mapa);
 
   // pistas e nomes dos aeródromos
   for(const ad of AERODROMOS){
@@ -705,6 +720,23 @@ function iniciarMapa(){
   });
   $('opac').addEventListener('input', () => { if(camadaFRZ) camadaFRZ.eachLayer(l => l.setOpacity($('opac').value/100)); });
 }
+
+// Tela cheia do mapa: tenta a tela cheia do navegador e, onde não existir (iPhone), ocupa a janela toda
+function telaCheia(ligar){
+  const w = document.querySelector('.mapwrap'), b = $('btnCheia');
+  if(ligar === undefined) ligar = !w.classList.contains('cheia');
+  w.classList.toggle('cheia', ligar); document.body.classList.toggle('mapa-cheio', ligar);
+  if(b){ b.textContent = ligar ? '✕' : '⛶'; b.title = ligar ? 'Sair da tela cheia' : 'Abrir o mapa em tela cheia'; }
+  const fsEl = document.fullscreenElement || document.webkitFullscreenElement;
+  if(ligar && !fsEl){ const f = w.requestFullscreen || w.webkitRequestFullscreen; if(f) try { const p = f.call(w); if(p && p.catch) p.catch(() => {}); } catch(e){} }
+  if(!ligar && fsEl){ const f = document.exitFullscreen || document.webkitExitFullscreen; if(f) try { const p = f.call(document); if(p && p.catch) p.catch(() => {}); } catch(e){} }
+  setTimeout(() => mapa && mapa.invalidateSize(), 200);
+}
+// saiu da tela cheia pelo botão "voltar"/Esc do navegador: volta o mapa ao tamanho normal
+['fullscreenchange','webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => {
+  if(!(document.fullscreenElement || document.webkitFullscreenElement) && document.querySelector('.mapwrap.cheia')) telaCheia(false);
+}));
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && document.querySelector('.mapwrap.cheia')) telaCheia(false); });
 
 // Marca o ponto do voo e o raio da área no mapa de satélite
 function desenharOperacao(){
