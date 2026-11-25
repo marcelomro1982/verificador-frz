@@ -45,4 +45,4 @@ Contexto para o Claude Code trabalhar neste projeto.
 4. Cabeceiras de SBCO (Canoas) – desconsiderada por decisão do Marcelo (19/11/2026).
 5. ~~Helipontos~~ – feito na v4. ~~Áreas P/R/D (Art. 29) e áreas de segurança publicadas como área proibida (ex.: refinaria, presídios)~~ – feito na v5 a partir da AIP ENR 5.1 (emenda A 25/2026, efetiva 24/12/2026). Faltam: TRA/TSA e áreas temporárias (vêm por NOTAM/Suplemento AIP). **A cada nova emenda AIRAC da AIP, rodar `ferramentas/extrair-eac.js` de novo.**
 7. Lista de helipontos muda com o tempo: reconferir no AISWEB (Aeródromos → Tipo Heliponto, UF RS) de tempos em tempos.
-6. ~~Mapa com imagem de satélite~~ – feito na v3 (Leaflet + Esri), publicado em https://baxada1marcelo-alt.github.io/verificador-frz/
+6. ~~Mapa com imagem de satélite~~ – feito na v3 (Leaflet + Esri), publicado em https://marcelomro1982.github.io/verificador-frz/

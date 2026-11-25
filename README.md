@@ -8,7 +8,7 @@ Você informa a coordenada, a altura máxima e o tipo de operação, e a página
 - avisos de limites (Art. 25 – acima de 400 ft; Art. 32 – recreativa acima de 200 ft ou 300 m);
 - um mapa com **imagem de satélite** e os anéis das FRZ por cima.
 
-Página on-line: https://baxada1marcelo-alt.github.io/verificador-frz/
+Página on-line: https://marcelomro1982.github.io/verificador-frz/
 
 > **Orientação prévia.** A confirmação oficial é feita no **SARPAS** (DECEA).
 
