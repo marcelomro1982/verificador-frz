@@ -36,7 +36,7 @@ Fonte: AISWEB/DECEA (aisweb.decea.mil.br/?i=aerodromos&codigo=XXXX), consultado 
 | Aeródromo | Cidade | Tipo | Regras | ARP | Pista | Cabeceiras | Observações |
 |---|---|---|---|---|---|---|---|
 | SBSM – Santa Maria | Santa Maria | PUB/MIL | VFR/IFR | 29°42'39"S 053°41'32"W | 11/29 – 2694×45 | 11: S29°42'38" W053°42'14" · 29: S29°42'43" W053°40'34" | — |
-| SBSM | Santa Maria | | | | 02/20 – 1505×30 | 02: S29°43'17" W053°41'19" · 20: S29°42'28" W053°41'17" | **Fechada (SUP N0057) até 26/04/2029 – não considerar enquanto fechada** (o SARPAS ainda a considera – observado pelo Marcelo em 19/11/2026; decisão: não considerar) |
+| SBSM | Santa Maria | | | | 02/20 – 1505×30 | 02: S29°43'17" W053°41'19" · 20: S29°42'28" W053°41'17" | Fechada (SUP N0057) até 26/04/2029, mas o SARPAS continua usando nas FRZ – **considerada desde a v18** (decisão do Marcelo, 25/11/2026; antes ficava de fora) |
 | SBPA – Salgado Filho | Porto Alegre | PUB | VFR/IFR | 29°59'41"S 051°10'16"W | 11/29 – 3200×45 | 11: S29°59'39.79" W051°10'58.82" · 29: S29°59'42.14" W051°08'59.46" | — |
 | SBCO – Canoas | Canoas | MIL | VFR/IFR | 29°56'44"S 051°08'37"W | 13/31 – 2751×45 | 13: S29°56'31" W051°09'28" · 31: S29°57'00" W051°07'51" | Conferir coordenadas |
 | SBCX – Hugo Cantergiani | Caxias do Sul | PUB | VFR/IFR | 29°11'53"S 051°11'12"W | 15/33 – 1670×30 | 15: S29°11'33" W051°11'34" · 33: S29°12'12" W051°10'50" | Últimos 90 m da RWY 15 fechados |

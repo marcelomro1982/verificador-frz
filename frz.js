@@ -8,8 +8,10 @@ function dms(d, m, s, hemi) { const v = d + m / 60 + s / 3600; return (hemi === 
 const AERODROMOS = [
   { id: 'SBSM', nome: 'Santa Maria', cidade: 'Santa Maria', regra: 'IFR',
     arp: [dms(29,42,39,'S'), dms(53,41,32,'W')],
-    pistas: [ { nome: '11/29', cab: [ ['11', dms(29,42,38,'S'), dms(53,42,14,'W')], ['29', dms(29,42,43,'S'), dms(53,40,34,'W')] ] } ],
-    obs: 'RWY 02/20 fechada (SUP N0057) até 26/04/2029 – não considerada aqui. Atenção: o SARPAS ainda considera a 02/20, então pode mostrar conflito com a SBSM que este verificador não mostra.' },
+    pistas: [ { nome: '11/29', cab: [ ['11', dms(29,42,38,'S'), dms(53,42,14,'W')], ['29', dms(29,42,43,'S'), dms(53,40,34,'W')] ] },
+              // RWY 02/20: fechada (SUP N0057) até 26/04/2029, mas o SARPAS continua usando nas FRZ → considerada aqui também (decisão do Marcelo, 25/11/2026)
+              { nome: '02/20', cab: [ ['02', dms(29,43,17,'S'), dms(53,41,19,'W')], ['20', dms(29,42,28,'S'), dms(53,41,17,'W')] ] } ],
+    obs: 'RWY 02/20 está fechada (SUP N0057) até 26/04/2029, mas o SARPAS continua usando ela no cálculo das FRZ; por isso ela também é considerada aqui.' },
   { id: 'SBPA', nome: 'Salgado Filho', cidade: 'Porto Alegre', regra: 'IFR',
     arp: [dms(29,59,41,'S'), dms(51,10,16,'W')],
     pistas: [ { nome: '11/29', cab: [ ['11', dms(29,59,39.79,'S'), dms(51,10,58.82,'W')], ['29', dms(29,59,42.14,'S'), dms(51,8,59.46,'W')] ] } ] },

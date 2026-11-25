@@ -28,7 +28,7 @@ Contexto para o Claude Code trabalhar neste projeto.
 - Área com raio: amostra centro + 2 anéis de 24 pontos e usa o pior caso.
 - Filtro das áreas EAC (v14): só esconde no mapa; o resultado considera SEMPRE todas as áreas (decisão do Marcelo, 19/11/2026).
 - Área em polígono (v13): FRZ pelo contorno (pontos a cada ≤ 5 m) + grade no interior, pior caso; áreas P/R/D por interseção exata dos lados; prazo "> 100 km²" usa a área do polígono.
-- SBSM RWY 02/20 está fechada (SUP N0057, até 26/04/2029) → não considerar enquanto fechada. **Decisão do Marcelo (19/11/2026):** o SARPAS ainda leva a 02/20 em conta, mas o verificador NÃO deve considerar; a página só avisa que o SARPAS pode mostrar conflito a mais.
+- SBSM RWY 02/20 está fechada (SUP N0057, até 26/04/2029), mas o SARPAS continua usando ela nas FRZ. **Decisão do Marcelo (25/11/2026, v18):** considerar a 02/20 igual ao SARPAS. (Até a v17 ela ficava de fora, por decisão de 19/11/2026.)
 - SJRG: cabeceiras não publicadas → resultado "indefinido".
 - **Prazo de antecedência** (Arts. 56 e 57): 30 min sem FRZ/área restrita; 4 dias com interseção (ou aerolevantamento, ou área > 100 km²); 8 dias acima de 400 ft ou Atípica; Aérea Especial 30 min. Considera UA ≤ 25 kg e VLOS. Conferido com print do SARPAS em 19/11/2026 (SDWY, 390 ft: SARPAS "Não aceito – prazo insuficiente").
 
@@ -39,7 +39,7 @@ Contexto para o Claude Code trabalhar neste projeto.
 - Versionar: subir a versão (v2 → v3…) no cabeçalho do `index.html` e no CHANGELOG, com data. Trocar também o `?v=` dos `<script src="frz.js?v=…">` e `eac-rs.js?v=…` (evita o navegador usar cópia antiga).
 
 ## Pendências
-1. ~~Validar a regra da altura no SARPAS~~ – feito na v8 (19/11/2026): no piso exato não entra; acima entra. Observação: no teste a 105 ft o SARPAS listou **2 conflitos SBSM (61 m/200 ft)** – o Marcelo confirmou que o SARPAS ainda considera a RWY 02/20 – por decisão dele, o verificador continua sem ela.
+1. ~~Validar a regra da altura no SARPAS~~ – feito na v8 (19/11/2026): no piso exato não entra; acima entra. Observação: no teste a 105 ft o SARPAS listou **2 conflitos SBSM (61 m/200 ft)** – o Marcelo confirmou que o SARPAS ainda considera a RWY 02/20 – desde a v18 (25/11/2026) o verificador também considera a 02/20.
 2. ~~Limite externo dos setores E/J~~ – resolvido na prática (v4): nesse anel a FRZ começa em 400 ft; abaixo disso não entra. O limite externo continua sem definição na norma, mas só importa para voo com 400 ft ou mais.
 3. Cabeceiras do SJRG (Rio Grande) – desconsiderada por decisão do Marcelo (19/11/2026).
 4. Cabeceiras de SBCO (Canoas) – desconsiderada por decisão do Marcelo (19/11/2026).

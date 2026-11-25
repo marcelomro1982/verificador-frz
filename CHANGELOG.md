@@ -1,5 +1,8 @@
 # Histórico de versões
 
+## v18 – 25/11/2026
+- **SBSM: a RWY 02/20 voltou a ser considerada** nas FRZ (ZEA e ZAD), para o resultado ficar igual ao do SARPAS. A pista está fechada (SUP N0057, até 26/04/2029), mas o SARPAS continua usando ela. Decisão do Marcelo. Cabeceiras: 02 S29°43'17" W053°41'19" · 20 S29°42'28" W053°41'17" (AISWEB).
+
 ## v17 – 25/11/2026
 - A **altura** abre **zerada** (antes vinha 200 ft), igual aos outros campos. O botão "Limpar dados" também volta a altura para 0.
 

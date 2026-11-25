@@ -115,3 +115,12 @@ assert.strictEqual(f.avaliar(0, 0, 0, 10, 'recreativa', ret).find(x => x.ad.id =
 { const a = area('SBP505'); const [la, lo] = centro(a); const g = [f.fromXY(la, lo, -20000, -20000), f.fromXY(la, lo, 20000, -20000), f.fromXY(la, lo, 20000, 20000), f.fromXY(la, lo, -20000, 20000)];
   assert.ok(f.avaliarEAC(0, 0, 0, 100, g).some(x => x.a.id === 'SBP505'), 'polígono que contém SBP505'); okP++; }
 console.log(`${okP}/5 testes de polígono OK`);
+
+// ===== SBSM RWY 02/20 (considerada desde a v18, igual ao SARPAS) =====
+{ const p = sm.pistas.find(x => x.nome === '02/20'); assert.ok(p, 'SBSM deve ter a pista 02/20');
+  const [C02, C20] = p.xy; const n2 = Math.hypot(C02[0]-C20[0], C02[1]-C20[1]);
+  const vx = (C02[0]-C20[0])/n2, vy = (C02[1]-C20[1])/n2;           // direção "para fora" da cabeceira 02 (para o sul)
+  const [lat, lon] = f.fromXY(sm.lat0, sm.lon0, C02[0] + vx*1500, C02[1] + vy*1500);
+  const r = f.avaliar(lat, lon, 0, 10, 'recreativa').find(x => x.ad.id === 'SBSM');
+  assert.strictEqual(r.pior.zona, 'ZAD'); assert.strictEqual(r.pior.setor, 'F'); assert.strictEqual(r.pior.cab, '02'); assert.strictEqual(r.status, 'dentro');
+  console.log('1/1 teste da RWY 02/20 OK'); }
