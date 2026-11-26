@@ -1,5 +1,9 @@
 # Histórico de versões
 
+## v19 – 26/11/2026
+- **Ícone próprio** (anéis das FRZ com um drone branco), na aba do navegador e quando o site é instalado como app no computador (Edge: ⋯ → Aplicativos → "Instalar este site como um aplicativo"; Chrome: ⋮ → Transmitir, salvar e compartilhar → "Criar atalho…" → "Abrir como janela") ou adicionado à tela inicial do celular.
+- Arquivos novos: `manifest.webmanifest` (nome e cores do app), pasta `icones/` e `ferramentas/gerar-icones.js` (gera os ícones).
+
 ## v18 – 25/11/2026
 - **SBSM: a RWY 02/20 voltou a ser considerada** nas FRZ (ZEA e ZAD), para o resultado ficar igual ao do SARPAS. A pista está fechada (SUP N0057, até 26/04/2029), mas o SARPAS continua usando ela. Decisão do Marcelo. Cabeceiras: 02 S29°43'17" W053°41'19" · 20 S29°42'28" W053°41'17" (AISWEB).
 

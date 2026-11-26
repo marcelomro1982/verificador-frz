@@ -16,6 +16,7 @@ Contexto para o Claude Code trabalhar neste projeto.
 - `eac-rs.js` – áreas proibidas/restritas/perigosas do RS (gerado, não editar à mão).
 - `ferramentas/extrair-eac.js` – gera o `eac-rs.js` a partir do PDF da AIP (instruções no topo do arquivo).
 - `CHANGELOG.md` – histórico de versões.
+- `manifest.webmanifest` + `icones/` (v19) – nome, cores e ícone para instalar o site como app (Edge/Chrome no computador, tela inicial no celular). Ícones gerados por `node ferramentas/gerar-icones.js`. Sem service worker (decisão do Marcelo, 26/11/2026: app instalável offline e artefato do Claude foram descartados – o artefato não mostra fundo do mapa nem tem localização).
 - PDFs da AIP/cartas ficam na pasta só para consulta (o `.gitignore` não deixa irem para o GitHub).
 
 ## Regras de cálculo (resumo)
